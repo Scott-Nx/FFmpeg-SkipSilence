@@ -56,10 +56,10 @@ choco install ffmpeg  # using Chocolatey
 cd FFmpeg-SkipSilence
 
 # Make the script executable (Linux/macOS)
-chmod +x trim_silence.py
+chmod +x main.py
 
 # Or just run it with Python
-python3 trim_silence.py --help
+python3 main.py --help
 ```
 
 ## Usage
@@ -68,35 +68,35 @@ python3 trim_silence.py --help
 
 ```bash
 # Process a video file (output will be named with _trimmed suffix)
-python3 trim_silence.py input.mp4
+python3 main.py input.mp4
 
 # Specify output filename
-python3 trim_silence.py input.mp4 -o output.mp4
+python3 main.py input.mp4 -o output.mp4
 
 # Thai or Unicode filenames work fine
-python3 trim_silence.py "อินพุต.mp4" -o "เอาต์พุต.mp4"
+python3 main.py "อินพุต.mp4" -o "เอาต์พุต.mp4"
 ```
 
 ### Advanced Options
 
 ```bash
 # Adjust silence threshold (more negative = quieter sounds detected as silence)
-python3 trim_silence.py input.mp4 -t -35
+python3 main.py input.mp4 -t -35
 
 # Set minimum silence duration (in seconds)
-python3 trim_silence.py input.mp4 -d 1.0
+python3 main.py input.mp4 -d 1.0
 
 # Add padding around silence (keeps a bit of silence between segments)
-python3 trim_silence.py input.mp4 -p 0.2
+python3 main.py input.mp4 -p 0.2
 
 # Verbose output showing all processing steps
-python3 trim_silence.py input.mp4 -v
+python3 main.py input.mp4 -v
 
 # Change output filename suffix
-python3 trim_silence.py input.mp4 -s "_no_silence"
+python3 main.py input.mp4 -s "_no_silence"
 
 # All options combined
-python3 trim_silence.py input.mp4 -o output.mp4 -t -40 -d 0.3 -p 0.15 -v
+python3 main.py input.mp4 -o output.mp4 -t -40 -d 0.3 -p 0.15 -v
 ```
 
 ### Command Line Arguments
@@ -116,7 +116,7 @@ python3 trim_silence.py input.mp4 -o output.mp4 -t -40 -d 0.3 -p 0.15 -v
 ### Remove Long Pauses from Lecture Recording
 
 ```bash
-python3 trim_silence.py lecture.mp4 -t -35 -d 2.0
+python3 main.py lecture.mp4 -t -35 -d 2.0
 ```
 
 This removes pauses longer than 2 seconds that are quieter than -35dB.
@@ -124,7 +124,7 @@ This removes pauses longer than 2 seconds that are quieter than -35dB.
 ### Compress Podcast (Remove All Silence)
 
 ```bash
-python3 trim_silence.py podcast.mp4 -t -25 -d 0.3 -p 0.05
+python3 main.py podcast.mp4 -t -25 -d 0.3 -p 0.05
 ```
 
 This aggressively removes silence and adds minimal padding.
@@ -132,7 +132,7 @@ This aggressively removes silence and adds minimal padding.
 ### Process Noisy Video
 
 ```bash
-python3 trim_silence.py noisy_video.mp4 -t -40 -d 1.0
+python3 main.py noisy_video.mp4 -t -40 -d 1.0
 ```
 
 For videos with background noise, use a more negative threshold (-40 or lower).
@@ -141,7 +141,7 @@ For videos with background noise, use a more negative threshold (-40 or lower).
 
 ```bash
 for file in *.mp4; do
-    python3 trim_silence.py "$file" -t -30 -d 0.5
+    python3 main.py "$file" -t -30 -d 0.5
 done
 ```
 
@@ -150,7 +150,7 @@ done
 ```bash
 mkdir -p trimmed
 for file in *.mp4; do
-    python3 trim_silence.py "$file" -o "trimmed/${file%.mp4}_trimmed.mp4" -v
+    python3 main.py "$file" -o "trimmed/${file%.mp4}_trimmed.mp4" -v
 done
 ```
 
@@ -209,7 +209,7 @@ FFprobe comes with FFmpeg. Reinstall FFmpeg.
 
 This is normal for videos with many short silent segments. Options:
 
-- Increase `-d` to reduce number of cuts: `python3 trim_silence.py input.mp4 -d 1.0`
+- Increase `-d` to reduce number of cuts: `python3 main.py input.mp4 -d 1.0`
 - Disable verbose output (slightly faster)
 - Use a faster computer or GPU
 
@@ -218,7 +218,7 @@ This is normal for videos with many short silent segments. Options:
 Try increasing padding:
 
 ```bash
-python3 trim_silence.py input.mp4 -p 0.3
+python3 main.py input.mp4 -p 0.3
 ```
 
 ### "Too Much Removed" or "Too Little Removed"
@@ -305,10 +305,10 @@ Note: Output will be re-encoded to H.264/AAC if stream copy fails.
 **Q: How do I process videos in a specific folder?**
 
 ```bash
-python3 trim_silence.py /path/to/folder/*.mp4
+python3 main.py /path/to/folder/*.mp4
 # For multiple files:
 for file in /path/to/folder/*.mp4; do
-    python3 trim_silence.py "$file"
+    python3 main.py "$file"
 done
 ```
 
